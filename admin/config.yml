@@ -1,0 +1,306 @@
+# Sveltia CMS config: the content types editors see and the fields in each
+# form. Field names must match src/schemas.ts. See README.md.
+
+backend:
+  name: github
+  repo: simonclay/svsf-source # Set per site: the site's private source repo
+  branch: main
+  # base_url: https://YOUR-AUTHENTICATOR.workers.dev  # only needed for real (non-local) GitHub login
+
+media_folder: public/assets/images/uploads
+public_folder: /assets/images/uploads
+
+# Uploaded photos are converted to WebP and capped at 1920px, and file names
+# are cleaned up (no spaces), so a straight-from-camera or stock image doesn't
+# add megabytes to every page.
+media_libraries:
+  default:
+    config:
+      slugify_filename: true
+      transformations:
+        raster_image:
+          format: webp
+          quality: 82
+          width: 1920
+          height: 1920
+
+collections:
+  - name: pages
+    label: Pages
+    icon: description
+    files:
+      - name: home
+        label: Homepage
+        file: src/content/pages/home.json
+        fields:
+          - name: seo
+            label: "SEO (Google and sharing)"
+            widget: object
+            collapsed: true
+            hint: "How this page looks in Google and when shared. Click to open."
+            fields:
+              - { name: title, label: "Page title (optional)", widget: string, required: false, hint: "Browser tab and Google. Around 50 to 60 characters. Leave empty to use the page's usual title." }
+              - { name: description, label: "Description (Google search results)", widget: text, required: false, hint: "Around 140 to 160 characters. A plain summary that makes people want to click." }
+              - { name: image, label: "Share picture (optional)", widget: image, required: false, hint: "Shown when the page is shared on WhatsApp, Facebook or LinkedIn. 1200 x 630 pixels works best." }
+          - { name: heroTitle, label: "Top banner: heading", widget: text }
+          - { name: heroText, label: "Top banner: paragraph", widget: text }
+          - { name: solutionsTitle, label: "Solutions: heading", widget: string, hint: "The cards below it come from Services" }
+          - { name: showNews, label: "Latest news: show this section", widget: boolean, default: true }
+          - { name: newsTitle, label: "Latest news: heading", widget: string, hint: "Shows the three newest News posts" }
+
+      - name: about
+        label: About Us
+        file: src/content/pages/about.md
+        fields:
+          - name: seo
+            label: "SEO (Google and sharing)"
+            widget: object
+            collapsed: true
+            hint: "How this page looks in Google and when shared. Click to open."
+            fields:
+              - { name: title, label: "Page title (optional)", widget: string, required: false, hint: "Browser tab and Google. Around 50 to 60 characters. Leave empty to use the page's usual title." }
+              - { name: description, label: "Description (Google search results)", widget: text, required: false, hint: "Around 140 to 160 characters. A plain summary that makes people want to click." }
+              - { name: image, label: "Share picture (optional)", widget: image, required: false, hint: "Shown when the page is shared on WhatsApp, Facebook or LinkedIn. 1200 x 630 pixels works best." }
+          - { name: title, label: Heading, widget: string }
+          - { name: body, label: "Text", widget: markdown }
+
+      - name: team
+        label: Meet the Team
+        file: src/content/pages/team.json
+        fields:
+          - name: seo
+            label: "SEO (Google and sharing)"
+            widget: object
+            collapsed: true
+            hint: "How this page looks in Google and when shared. Click to open."
+            fields:
+              - { name: title, label: "Page title (optional)", widget: string, required: false, hint: "Browser tab and Google. Around 50 to 60 characters. Leave empty to use the page's usual title." }
+              - { name: description, label: "Description (Google search results)", widget: text, required: false, hint: "Around 140 to 160 characters. A plain summary that makes people want to click." }
+              - { name: image, label: "Share picture (optional)", widget: image, required: false, hint: "Shown when the page is shared on WhatsApp, Facebook or LinkedIn. 1200 x 630 pixels works best." }
+          - { name: title, label: Heading, widget: string, hint: "The team members themselves are under Team in the menu" }
+
+      - name: news-page
+        label: News page
+        file: src/content/pages/news.json
+        fields:
+          - name: seo
+            label: "SEO (Google and sharing)"
+            widget: object
+            collapsed: true
+            hint: "How this page looks in Google and when shared. Click to open."
+            fields:
+              - { name: title, label: "Page title (optional)", widget: string, required: false, hint: "Browser tab and Google. Around 50 to 60 characters. Leave empty to use the page's usual title." }
+              - { name: description, label: "Description (Google search results)", widget: text, required: false, hint: "Around 140 to 160 characters. A plain summary that makes people want to click." }
+              - { name: image, label: "Share picture (optional)", widget: image, required: false, hint: "Shown when the page is shared on WhatsApp, Facebook or LinkedIn. 1200 x 630 pixels works best." }
+          - { name: title, label: Heading, widget: string, hint: "The posts themselves are under News in the menu" }
+
+      - name: contact
+        label: Contact Us
+        file: src/content/pages/contact.json
+        fields:
+          - name: seo
+            label: "SEO (Google and sharing)"
+            widget: object
+            collapsed: true
+            hint: "How this page looks in Google and when shared. Click to open."
+            fields:
+              - { name: title, label: "Page title (optional)", widget: string, required: false, hint: "Browser tab and Google. Around 50 to 60 characters. Leave empty to use the page's usual title." }
+              - { name: description, label: "Description (Google search results)", widget: text, required: false, hint: "Around 140 to 160 characters. A plain summary that makes people want to click." }
+              - { name: image, label: "Share picture (optional)", widget: image, required: false, hint: "Shown when the page is shared on WhatsApp, Facebook or LinkedIn. 1200 x 630 pixels works best." }
+          - { name: title, label: Heading, widget: string }
+          - name: boxes
+            label: "Department boxes"
+            label_singular: box
+            widget: list
+            summary: "{{title}}"
+            fields:
+              - { name: title, label: Heading, widget: string }
+              - { name: text, label: Text, widget: text }
+              - { name: buttonLabel, label: "Button text", widget: string }
+              - { name: email, label: "Email address the button opens", widget: string }
+          - { name: companyName, label: "Address: company name", widget: string }
+          - name: addressLines
+            label: "Address lines"
+            widget: list
+            field: { name: line, widget: string }
+          - { name: directions, label: "Directions", widget: text }
+          - { name: mapLatitude, label: "Map pin: latitude", widget: number, value_type: float, hint: "In Google Maps, right-click the spot: the first number" }
+          - { name: mapLongitude, label: "Map pin: longitude", widget: number, value_type: float, hint: "The second number" }
+          - { name: mapPopup, label: "Map pin: address shown when clicked", widget: text, required: false }
+
+  - name: services
+    label: Services
+    icon: local_shipping
+    folder: src/content/services
+    create: true
+    format: frontmatter
+    extension: md
+    slug: "{{slug}}"
+    # The Reorder button sets each entry's `order` (homepage cards and menu order).
+    reorder: true
+    fields:
+      - name: seo
+        label: "SEO (Google and sharing)"
+        widget: object
+        collapsed: true
+        hint: "How this page looks in Google and when shared. Click to open."
+        fields:
+          - { name: title, label: "Page title (optional)", widget: string, required: false, hint: "Browser tab and Google. Around 50 to 60 characters. Leave empty to use the page's usual title." }
+          - { name: description, label: "Description (Google search results)", widget: text, required: false, hint: "Around 140 to 160 characters. A plain summary that makes people want to click." }
+          - { name: image, label: "Share picture (optional)", widget: image, required: false, hint: "Shown when the page is shared on WhatsApp, Facebook or LinkedIn. 1200 x 630 pixels works best." }
+      - { name: title, label: Title, widget: string }
+      - { name: subheading, label: "Orange line under the title", widget: string, hint: "Also shown on the homepage card" }
+      - { name: body, label: "Text", widget: markdown }
+      - { name: buttonLabel, label: "Button text", widget: string, required: false }
+      - { name: buttonHref, label: "Button link", widget: string, required: false, default: "/contact-us/" }
+      - { name: showInSupplyMenu, label: "Show in the Supply & Funding menu", widget: boolean, default: false }
+      - { name: menuDescription, label: "Menu description", widget: string, hint: "Short line under the title in the Supply & Funding menu" }
+      - name: graphic
+        label: "Picture on the right"
+        widget: select
+        default: none
+        options:
+          - { label: "Road with steps", value: road }
+          - { label: "UK network map", value: network }
+          - { label: "Lightbulb", value: lightbulb }
+          - { label: "Car brand logos (from Brands)", value: brands }
+          - { label: "None", value: none }
+      - name: roadMarkers
+        label: "Road steps (road picture only)"
+        label_singular: step
+        widget: list
+        required: false
+        hint: "First step at the bottom of the road. Five fit best."
+        summary: "{{text}}"
+        fields:
+          - { name: text, label: Text, widget: string }
+          - { name: icon, label: Icon, widget: image }
+          - { name: side, label: "Label side", widget: select, options: [{ label: Left, value: left }, { label: Right, value: right }] }
+
+  - name: news
+    label: News
+    icon: newspaper
+    folder: src/content/news
+    create: true
+    format: frontmatter
+    extension: md
+    slug: "{{slug}}"
+    thumbnail: image
+    summary: "{{title}} ({{date | date('D MMM YYYY')}})"
+    sortable_fields: { fields: [date, title], default: { field: date, direction: descending } }
+    fields:
+      - name: seo
+        label: "SEO (Google and sharing)"
+        widget: object
+        required: false
+        collapsed: true
+        hint: "Optional. Leave empty to use the title, excerpt and image."
+        fields:
+          - { name: title, label: "Page title (optional)", widget: string, required: false }
+          - { name: description, label: "Description (optional)", widget: text, required: false }
+          - { name: image, label: "Share picture (optional)", widget: image, required: false }
+      - { name: title, label: Title, widget: string }
+      - { name: date, label: Date, widget: datetime, time_format: false, date_format: "D MMMM YYYY", format: "YYYY-MM-DD" }
+      - { name: excerpt, label: "Summary", widget: text, hint: "Shown (shortened) on the homepage cards and in Google" }
+      - { name: image, label: "Image", widget: image, required: false, hint: "Shown on the cards and beside the first paragraph" }
+      - { name: imageAlt, label: "Image description (for screen readers)", widget: string, required: false }
+      - { name: body, label: "Article", widget: markdown }
+
+  - name: team
+    label: Team
+    label_singular: team member
+    icon: groups
+    folder: src/content/team
+    create: true
+    format: frontmatter
+    extension: md
+    slug: "{{name}}"
+    identifier_field: name
+    summary: "{{name}}, {{role}}"
+    thumbnail: photo
+    reorder: true
+    editor: { preview: false }
+    fields:
+      - { name: name, label: Name, widget: string }
+      - { name: role, label: "Job title", widget: string }
+      - { name: photo, label: Photo, widget: image, hint: "Square works best; the top of the photo stays in view" }
+      - { name: intro, label: "Short bio", widget: text }
+      - { name: body, label: "Longer bio (behind Read more)", widget: markdown, required: false, hint: "Leave empty for no Read more link" }
+
+  - name: brands
+    label: Brands
+    label_singular: brand
+    icon: directions_car
+    folder: src/content/brands
+    create: true
+    format: json
+    extension: json
+    slug: "{{name}}"
+    identifier_field: name
+    thumbnail: logo
+    summary: "{{name}}"
+    sortable_fields: { fields: [name], default: { field: name } }
+    editor: { preview: false }
+    description: "Car brand logos on the OEM page, shown in alphabetical order."
+    fields:
+      - { name: name, label: Brand, widget: string }
+      - { name: logo, label: Logo, widget: image }
+
+  - name: legal
+    label: Legal
+    icon: gavel
+    label_singular: Legal page
+    folder: src/content/legal
+    create: true
+    format: frontmatter
+    extension: md
+    slug:
+      template: "{{slug}}"
+      editable: true
+    reorder: true
+    fields:
+      - name: seo
+        label: "SEO (Google and sharing)"
+        widget: object
+        collapsed: true
+        hint: "How this page looks in Google and when shared. Click to open."
+        fields:
+          - { name: title, label: "Page title (optional)", widget: string, required: false, hint: "Browser tab and Google. Around 50 to 60 characters. Leave empty to use the page's usual title." }
+          - { name: description, label: "Description (Google search results)", widget: text, required: false, hint: "Around 140 to 160 characters. A plain summary that makes people want to click." }
+          - { name: image, label: "Share picture (optional)", widget: image, required: false, hint: "Shown when the page is shared on WhatsApp, Facebook or LinkedIn. 1200 x 630 pixels works best." }
+      - { name: title, label: Title, widget: string }
+      - { name: footerLabel, label: "Footer link text (optional)", widget: string, required: false, hint: "Leave empty to use the title" }
+      - { name: body, label: "Policy text", widget: markdown }
+
+  - name: settings
+    label: Site settings
+    icon: settings
+    files:
+      - name: site
+        label: Site settings
+        file: src/content/settings/site.json
+        editor: { preview: false }
+        fields:
+          - { name: phone, label: "Phone number", widget: string, hint: "Shown in the footer and on Contact Us" }
+          - { name: footerEmailLabel, label: "Footer: email link text", widget: string }
+          - { name: footerEmailHref, label: "Footer: email link goes to", widget: string, hint: "A page (/contact-us/) or mailto:name@svsf.co.uk" }
+          - { name: linkedinUrl, label: "LinkedIn page address", widget: string, required: false }
+          - { name: portalLabel, label: "Header: portal link text", widget: string }
+          - { name: portalUrl, label: "Header: portal address", widget: string, required: false, hint: "Leave empty while the portal isn't ready" }
+          - { name: portalTooltip, label: "Header: portal tooltip", widget: string, required: false, hint: "e.g. Coming soon! Leave empty for none" }
+          - { name: footerAddress, label: "Footer: address line", widget: text }
+          - { name: copyright, label: "Footer: copyright line", widget: string, hint: "{year} becomes the current year" }
+          - name: footerScripts
+            label: "Footer scripts"
+            label_singular: "script"
+            widget: list
+            required: false
+            summary: "{{name}}"
+            hint: "Extra code that runs on every page of the website, such as a feedback widget, live chat or a marketing tracking code. Only paste code from services you trust. For Google Analytics, use the Google Analytics ID field below instead."
+            fields:
+              - { name: name, label: "Name (for your reference)", widget: string }
+              - { name: code, label: "Code", widget: code, default_language: html, output_code_only: true, allow_language_selection: false }
+              - { name: enabled, label: "Switched on", widget: boolean, default: false }
+              - { name: needsConsent, label: "Only load after cookie consent", widget: boolean, default: true, hint: "Leave on for anything that tracks visitors (analytics, ads, heatmaps, chat widgets that set cookies). Turn off only for scripts that set no cookies." }
+          - { name: analyticsId, label: "Google Analytics ID", widget: string, required: false, hint: "e.g. G-ABC123XYZ. Leave empty to turn off analytics and the cookie banner. Analytics only records visits on the live domain, and only after a visitor accepts cookies." }
+          - { name: cookieBannerText, label: "Cookie banner text", widget: text, required: false, hint: "Shown with Accept / Reject buttons and a link to the cookie policy." }
