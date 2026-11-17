@@ -2148,3 +2148,15 @@ body.no-scroll {
   display: contents;
 }
 
+
+/* Homepage hero: the old site put it behind the page (z-index -1) so it could
+   slide up under the header, which also made its text impossible to click or
+   select (and so to click-to-edit in the CMS preview). Same look, but the
+   hero sits in front of the page and the header is raised above it. */
+#brx-header {
+  position: relative;
+  z-index: 2;
+}
+.hero-banner.brxe-section {
+  z-index: 0;
+}
